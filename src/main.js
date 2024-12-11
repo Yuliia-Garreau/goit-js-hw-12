@@ -38,6 +38,7 @@ function handleSubmit(event) {
     if (inputValue === '') {
       loader.style.display = 'none';
       loadMore.style.display = 'none';
+      gallery.innerHTML = '';
       iziToast.warning({
         title: 'Caution',
         iconUrl: error,

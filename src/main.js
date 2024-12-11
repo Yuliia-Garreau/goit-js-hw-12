@@ -69,6 +69,15 @@ function handleSubmit(event) {
     loadMore.style.display = 'block';
     const totalPages = results.data.totalHits / perPage;
 
+    if(results.config.params.page >= totalPages) {
+        loadMore.style.display = 'none';
+            iziToast.info({
+                position: "topRight",  
+                iconUrl: error,      
+                message: "We're sorry, there are no more images to load"
+                });
+    }
+
     loadMore.addEventListener("click", handleLoadMore)
         async function handleLoadMore() {
         results.config.params.page += 1;    
@@ -88,16 +97,13 @@ function handleSubmit(event) {
 
         if(results.config.params.page >= totalPages) {
             loadMore.style.display = 'none';
-
-                const timerId = setTimeout(() => {
-                    iziToast.info({
-                        position: "topRight",  
-                        iconUrl: error,      
-                        message: "We're sorry, there are no more images to load"
-                        });
-                }, 3000);
+                iziToast.info({
+                    position: "topRight",  
+                    iconUrl: error,      
+                    message: "We're sorry, there are no more images to load"
+                    });
         }
-                }
+        }
         catch(error) {
             console.log(error.message)
         };
@@ -105,6 +111,7 @@ function handleSubmit(event) {
     }
     })
     .catch((error) => {
+        loadMore.style.display = 'none';
     console.log(error.message);            
     }
     )

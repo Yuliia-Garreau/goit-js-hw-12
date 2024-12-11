@@ -1,4 +1,4 @@
-h1,
+/* h1,
 h2,
 h3,
 h4,
@@ -10,7 +10,7 @@ p {
 
 p:last-child {
   margin-bottom: 0;
-}
+} */
 
 ul {
   margin: 0;
@@ -27,8 +27,8 @@ button {
   cursor: pointer;
 }
 
-img {
+/* img {
   display: block;
   max-width: 100%;
   height: auto;
-}
+} */

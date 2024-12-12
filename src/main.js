@@ -1,7 +1,7 @@
 
 import { fetchImages } from './js/pixabay-api';
 import { renderImages } from './js/render-functions';
-import error from "./img/error.png"
+import errorPict from "./img/errorPict.png"
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import SimpleLightbox from "simplelightbox";
@@ -41,7 +41,7 @@ function handleSubmit(event) {
       gallery.innerHTML = '';
       iziToast.warning({
         title: 'Caution',
-        iconUrl: error,
+        iconUrl: errorPict,
         message: 'The field is empty, please type your request',
     });    
     return ;
@@ -52,11 +52,12 @@ function handleSubmit(event) {
     
     fetchImages(inputValue)
     .then((results) => {
+        gallery.innerHTML = "";
         if(results.data.totalHits === 0){
         loadMore.style.display = 'none';
         loader.style.display = 'none';
         iziToast.error ({
-        iconUrl: error,
+        iconUrl: errorPict,
         titleColor: '#fff',
         messageColor: '#fff',
         imageWidth: 24,
@@ -74,7 +75,7 @@ function handleSubmit(event) {
         loadMore.style.display = 'none';
             iziToast.info({
                 position: "topRight",  
-                iconUrl: error,      
+                iconUrl: errorPict,      
                 message: "We're sorry, there are no more images to load"
                 });
     }
@@ -87,6 +88,7 @@ function handleSubmit(event) {
         const {data} = await fetchImages(inputValue, results.config.params.page);
         gallery.insertAdjacentHTML("beforeend", renderImages(data.hits));   
         loader.style.display = 'none'; 
+        galleryLargeImage.refresh();
 
         const photo = document.querySelector(".item-gallery");
             const itemHeight = photo.getBoundingClientRect().height;
@@ -113,7 +115,15 @@ function handleSubmit(event) {
     })
     .catch((error) => {
         loadMore.style.display = 'none';
-    console.log(error.message);            
+        loader.style.display = 'none';
+        gallery.innerHTML = '';
+        iziToast.error({
+        iconUrl: errorPict,
+        iconColor: '#fff',
+        imageWidth: 24,
+        messageColor: '#fff',
+        message: error.message,
+        });
     }
     )
     .finally(() => {
